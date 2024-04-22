@@ -2,6 +2,8 @@ import { useId } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import style from "./ContactForm.module.css";
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -17,10 +19,19 @@ const FeedbackSchema = Yup.object().shape({
     .required("Required"),
 });
 
-const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
   const nameFieldId = useId();
   const numberFieldId = useId();
-
+  const dispatch = useDispatch();
+  const onSubmit = (e, actions) => {
+    dispatch(
+      addContact({
+        name: e.name,
+        number: e.number,
+      })
+    );
+    actions.resetForm();
+  };
   return (
     <Formik
       initialValues={{ name: "", number: "" }}
