@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeFilter } from "../../redux/filterSlice";
 const SearchBox = () => {
   const id = useId();
-
   const contacts = useSelector((state) => state.contacts.items);
   const value = useSelector((state) => state.filter.name);
   const dispatch = useDispatch();
